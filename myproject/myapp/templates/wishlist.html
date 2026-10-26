@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% if wishlists_items %}
+    {% for item in wishlists_items %}
+    <div>
+        <img src="{{item.product.image.url}}" alt="">
+        <h2>{{item.product.name}}</h2>
+        <h2>{{item.product.price}}</h2>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Sizda xali sevimlilar royhati mavjud emas</p>
+    {% endif %}

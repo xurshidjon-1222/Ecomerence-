@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+
+    <style>
+        body {
+            background: #4267e8;
+            text-align: center;
+            padding-top: 120px;
+            font-family: Arial;
+        }
+
+        form {
+            background: white;
+            width: 300px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px #2225;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 97%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #087dcc;
+            color: white;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #075fa0;
+        }
+
+        a {
+            color: #087dcc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            form {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    {% for xabar in messages %}
+        <h1>{{xabar}}</h1>
+    {% endfor %}
+
+    <form action="" method="POST">
+
+        {% csrf_token %}
+
+        <h1>Login</h1>
+
+        <input type="text" placeholder="Email" name="username">
+
+        <input type="password" placeholder="Password" name="password">
+
+        <button>Akkaunt ochish</button>
+
+        <a href="register.html">Signup</a>
+
+    </form>
+
+</body>
+
+</html>
+

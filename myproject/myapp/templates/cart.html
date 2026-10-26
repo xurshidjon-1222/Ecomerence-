@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 30px auto; padding: 20px; font-family: sans-serif;">
+    <h1 style="font-size: 28px; margin-bottom: 25px; color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px;">🛒 Sizning savatingiz</h1>
+
+    {% if cart.items.all %}
+    <!-- Savat kartochkalari konteyneri -->
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+        {% for item in cart.items.all %}
+        <div style="display: flex; align-items: center; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); gap: 20px; transition: transform 0.2s;">
+            
+            <!-- Mahsulot rasmi -->
+            {% if item.mahsulot.image %}
+                <img src="{{ item.mahsulot.image.url }}" alt="{{ item.mahsulot.nomi }}" style="width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 1px solid #eee;">
+            {% else %}
+                <div style="width: 90px; height: 90px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #888; font-size: 12px; text-align: center;">Rasm yo'q</div>
+            {% endif %}
+
+            <!-- Mahsulot ma'lumotlari -->
+            <div style="flex-grow: 1;">
+                <h3 style="margin: 0 0 5px 0; font-size: 18px; color: #222;">{{ item.mahsulot.nomi }}</h3>
+                <p style="margin: 0; color: #666; font-size: 14px;">Narxi: <b>{{ item.mahsulot.narxi }} so'm</b></p>
+                <p style="margin: 5px 0 0 0; color: #444; font-size: 14px;">Miqdori: <b>{{ item.quantity }} ta</b></p>
+            </div>
+
+            <!-- Umumiy narx -->
+            <div style="text-align: right; min-width: 120px;">
+                <span style="display: block; font-size: 13px; color: #888;">Umumiy:</span>
+                <span style="font-size: 18px; font-weight: bold; color: #27ae60;">{{ item.total_price }} so'm</span>
+            </div>
+
+            <!-- O'chirish tugmasi -->
+            <div>
+                <a href="{% url 'remove_from_cart' item.id %}" style="background: #ff4d4d; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; transition: background 0.2s;" title="O'chirish">
+                    ❌ O'chirish
+                </a>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pastki umumiy summa va tugmalar -->
+    <div style="margin-top: 30px; background: #f9f9f9; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <h3 style="margin: 0; font-size: 20px; color: #333;">Umumiy summa: <span style="color: #27ae60;">{{ cart.total_price }} so'm</span></h3>
+        <a href="#" style="background: #27ae60; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px;">Buyurtma berish</a>
+    </div>
+
+    {% else %}
+    <div style="text-align: center; padding: 50px 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <p style="font-size: 18px; color: #777; margin-bottom: 20px;">Savatingiz hozircha bo'sh. ❌</p>
+        <a href="{% url 'index' %}" style="background: #3498db; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Xarid qilishni boshlash</a>
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 25px;">
+        <a href="{% url 'index' %}" style="color: #3498db; text-decoration: none; font-weight: 500;">← Bosh sahifaga qaytish</a>
+    </div>
+</div>
+{% endblock %}

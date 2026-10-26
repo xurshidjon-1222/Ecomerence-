@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ mahsulot.nomi }}</title>
+</head>
+<body>
+    <div style="padding: 20px; max-width: 800px; margin: auto;">
+        <a href="{% url 'index' %}">← Bosh sahifaga qaytish</a>
+        
+        <h1>{{ mahsulot.nomi }}</h1>
+        
+        {% if mahsulot.image %}
+            <img src="{{ mahsulot.image.url }}" alt="{{ mahsulot.nomi }}" width="250">
+        {% endif %}
+        
+        <p><b>Narxi:</b> {{ mahsulot.narxi }} so'm</p>
+        <p><b>Tavsifi:</b> {{ mahsulot.tavsifi }}</p>
+        
+        <!-- O'rtacha Reyting -->
+        <p><b>O'rtacha reyting:</b> ⭐ {{ average_rating }} / 5 ({{ reviews.count }} ta sharh)</p>
+
+        <hr>
+
+        <h3>Mijozlarning sharhlari</h3>
+        {% if reviews %}
+            <ul>
+                {% for review in reviews %}
+                    <li style="margin-bottom: 15px; list-style: none; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                        <b>{{ review.user.username }}</b> — 
+                        <span style="color: orange;">
+                            {% if review.rating == 1 %}⭐
+                            {% elif review.rating == 2 %}⭐⭐
+                            {% elif review.rating == 3 %}⭐⭐⭐
+                            {% elif review.rating == 4 %}⭐⭐⭐⭐
+                            {% elif review.rating == 5 %}⭐⭐⭐⭐⭐
+                            {% endif %}
+                        </span> 
+                        <small style="float: right; color: gray;">{{ review.created_at|date:"d.m.Y H:i" }}</small>
+                        <p style="margin-top: 5px;">{{ review.comment }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Hozircha bu mahsulotga sharh yozilmagan. Birinchi bo'lib yozing!</p>
+        {% endif %}
+
+        <hr>
+
+        <!-- SHARH QOLDIRISH FORMASI -->
+        <h3>Sharh qoldirish</h3>
+        {% if request.user.is_authenticated %}
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" style="padding: 8px 15px; background: green; color: white; border: none; cursor: pointer;">Sharh yuborish</button>
+            </form>
+        {% else %}
+            <p>Sharh qoldirish uchun <a href="{% url 'login' %}">tizimga kiring</a>.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

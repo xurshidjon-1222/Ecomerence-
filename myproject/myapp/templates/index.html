@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Mahsulotlar</h1>
+
+    {% for x in products %}
+        <img src="{{x.image.url}}" alt="rasm topilmadi">
+        <a href="{% url 'product-view' x.slug %}">
+        <h1>{{x.name}}</h1></a>
+        <p>{{x.price}}</p>
+        <span>{{x.tavsifi}}</span>
+        <p>{{x.quantity}}</p>
+
+         <p>
+            {{product.views}} marta korilgan</p>
+          <form action="{% url 'like' x.slug %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">
+        Yoqtirish ({{ x.likes.count }})
+    </button>
+</form>
+
+    {% endfor %}
+
+
+
+{% endblock %}

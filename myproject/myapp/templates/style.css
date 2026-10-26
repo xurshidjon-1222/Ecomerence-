@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+nav {
+    margin-left: 15px;
+    width: 1500px;
+    border-radius: 25px;
+    margin-top: 15px;
+    height: 85px;
+    background-color: rgba(87, 86, 86, 0.279);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 650px;
+}
+nav:hover {
+    transition: 1s;
+    background-color:rgba(47, 46, 46, 0.447) ;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+
+}
+a:hover {
+    transition: 0.7s;
+    color: white;
+}
+
+ul {
+    padding: 15px;
+    display: flex;
+    gap: 45px;
+    list-style: none;
+}

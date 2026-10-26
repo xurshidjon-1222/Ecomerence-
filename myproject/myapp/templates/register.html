@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ro'yxatdan o'tish</title>
+
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: Arial;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        form {
+            background: white;
+            width: 300px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #222;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <button>Ro'yxatdan o'tish</button>
+    </form>
+
+</body>
+
+</html>

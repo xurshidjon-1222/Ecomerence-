@@ -1,0 +1,504 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    
+.product-page {
+    max-width: 1100px;
+    width: 92%;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+    color: #1e293b;
+}
+
+.product-card, .reviews-card {
+    background: white;
+    padding: 28px;
+    margin-bottom: 25px;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px #0f172a0a;
+}
+
+.product-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+.product-image {
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border-radius: 16px;
+    background: #f1f5ff;
+}
+
+.product-image img {
+    width: 100%;
+    height: 280px;
+    object-fit: contain;
+    transition: .3s;
+}
+
+.product-image img:hover {
+    transform: scale(1.04);
+}
+
+.product-label, .section-label {
+    color: #6366f1;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.product-info h1 {
+    font-size: 32px;
+    margin: 15px 0;
+}
+
+.product-price {
+    color: #4f46e5;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.product-description, .review-comment {
+    color: #64748b;
+    line-height: 1.8;
+}
+
+.product-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 22px 0;
+}
+
+.stat {
+    padding: 13px 8px;
+    background: #f8fafc;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat small {
+    color: #64748b;
+}
+
+.stat b {
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.like-button, .submit-review {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.like-button:hover, .submit-review:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+}
+
+.like-button span {
+    margin-left: 10px;
+}
+
+.section-heading, .review-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.section-heading h2, .review-form-section h2 {
+    font-size: 24px;
+}
+
+.review-count {
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 9px 13px;
+    border-radius: 20px;
+}
+
+.average-rating {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    margin: 20px 0;
+    border-radius: 14px;
+    background: #fffbeb;
+}
+
+.big-star, .review-stars {
+    color: #f59e0b;
+    font-size: 25px;
+}
+
+.average-rating strong {
+    font-size: 23px;
+}
+
+.average-rating p {
+    margin-bottom: 0;
+    color: #64748b;
+}
+
+.review-item {
+    padding: 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.review-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #6366f1;
+    color: white;
+    font-weight: bold;
+}
+
+.review-user h4 {
+    margin: 0 0 5px;
+}
+
+.review-user small {
+    color: #94a3b8;
+}
+
+.empty-reviews {
+    text-align: center;
+    padding: 30px 10px;
+    background: #f8fafc;
+    border-radius: 15px;
+}
+
+.empty-reviews span {
+    font-size: 35px;
+}
+
+.review-form-section {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.review-form p {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 18px 0;
+}
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    outline: none;
+    font: inherit;
+}
+
+.review-form input:focus,
+.review-form select:focus,
+.review-form textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px #6366f122;
+}
+
+.review-form textarea {
+    min-height: 100px;
+}
+
+.login-notice {
+    padding: 18px;
+    border-radius: 12px;
+    background: #eef2ff;
+}
+
+.login-notice a {
+    color: #4f46e5;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.wishlist-btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 9px;
+    background: #fff1f2;
+    color: #e11d48;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+    .product-page {
+        width: 94%;
+        margin: 20px auto;
+    }
+
+    .product-card {
+        grid-template-columns: 1fr;
+        padding: 18px;
+        gap: 20px;
+    }
+
+    .product-image, .product-image img {
+        height: 230px;
+        min-height: 230px;
+    }
+
+    .product-info h1 {
+        font-size: 26px;
+    }
+
+    .product-stats {
+        gap: 6px;
+    }
+
+    .stat {
+        padding: 10px 6px;
+        font-size: 12px;
+    }
+
+    .reviews-card {
+        padding: 18px;
+    }
+
+    .section-heading h2,
+    .review-form-section h2 {
+        font-size: 21px;
+    }
+
+    .like-button, .submit-review {
+        width: 100%;
+    }
+}
+
+</style>
+
+<div class="product-page">
+
+    <!-- MAHSULOT -->
+    <div class="product-card">
+
+        <div class="product-image">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+            <p>📷 Rasm mavjud emas</p>
+            {% endif %}
+        </div>
+
+        <div class="product-info">
+
+            <span class="product-label">✦ MAHSULOT</span>
+
+            <h1>{{ product.name }}</h1>
+
+            <div class="product-price">
+                {{ product.price }} so'm
+            </div>
+
+            <p class="product-description">
+                {{ product.description }}
+            </p>
+
+            <div class="product-stats">
+                <div class="stat">
+                    <span>📦</span>
+                    <div>
+                        <small>Omborda</small>
+                        <b>{{ product.quantity }} ta</b>
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <span>👁️</span>
+                    <div>
+                        <small>Ko'rishlar</small>
+                        <b>{{ product.views }} marta</b>
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <span>⭐</span>
+                    <div>
+                        <small>Reyting</small>
+                        <b>{{ average_rating }} / 5</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIKE -->
+            <form action="{% url 'like' product.slug %}" method="POST" class="like-form">
+                {% csrf_token %}
+
+                <button type="submit" class="like-button">
+                    {% if liked %}
+                    ❤️ Yoqdi
+                    {% else %}
+                    🤍 Yoqtirish
+                    {% endif %}
+
+                    <span>{{ product.likes.count }}</span>
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- SHARHLAR -->
+    <div class="reviews-card">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-label">FOYDALANUVCHILAR FIKRI</span>
+                <h2>💬 Mijozlar sharhlari</h2>
+            </div>
+
+            <div class="review-count">
+                {{ reviews.count }} ta sharh
+            </div>
+        </div>
+
+        <div class="average-rating">
+            <span class="big-star">★</span>
+            <div>
+                <strong>{{ average_rating }} / 5</strong>
+                <p>O'rtacha reyting</p>
+            </div>
+        </div>
+
+        {% if reviews %}
+
+        <div class="reviews-list">
+
+            {% for review in reviews %}
+
+            <div class="review-item">
+
+                <div class="review-top">
+                    <div class="review-user">
+                        <div class="user-avatar">
+                            {{ review.User.username|first|upper }}
+                        </div>
+
+                        <div>
+                            <h4>{{ review.User.username }}</h4>
+                            <small>
+                                {{ review.created_at|date:"d.m.Y H:i" }}
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="review-stars">
+                        {% if review.rating == 1 %}★
+                        {% elif review.rating == 2 %}★★
+                        {% elif review.rating == 3 %}★★★
+                        {% elif review.rating == 4 %}★★★★
+                        {% elif review.rating == 5 %}★★★★★
+                        {% endif %}
+                    </div>
+                </div>
+
+                <p class="review-comment">
+                    {{ review.comment }}
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-reviews">
+            <span>💭</span>
+            <h3>Hozircha sharhlar yo'q</h3>
+            <p>Birinchi bo'lib o'z fikringizni yozing!</p>
+        </div>
+
+        {% endif %}
+
+        <!-- SHARH YOZISH -->
+        <div class="review-form-section">
+
+            <span class="section-label">O'Z FIKRINGIZNI BILDIRING</span>
+            <h2>✍️ Sharh qoldirish</h2>
+
+            {% if request.user.is_authenticated %}
+
+            <form method="POST" class="review-form">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="submit-review">
+                    Sharhni yuborish <span>➜</span>
+                </button>
+            </form>
+
+            {% else %}
+
+            <div class="login-notice">
+                <p>🔐 Sharh yozish uchun tizimga kirishingiz kerak.</p>
+                <a href="{% url 'login' %}">Tizimga kirish →</a>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% for product in products %}
+        <div class="product-card">
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.price }} so'm</p>
+
+            <!-- Wishlist tugmasi -->
+            {% if user.is_authenticated %}
+            <a href="{% url 'toggle_wishlist' product.id %}" class="wishlist-btn">
+                ❤️ Sevimlilarga qo'shish/olish
+            </a>
+            {% else %}
+            <a href="{% url 'login' %}">Sevimlilarga qo'shish uchun kiring</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
